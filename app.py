@@ -21,7 +21,7 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-outcomes = ["lol, no...", "Rose pushed you under", "Jack sacraficed himself for you", "Damn right- you swam to NY!"]
+outcomes = ["lol, no...", "Rose pushed you under..", "Jack sacraficed himself for you!", "Damn right- you swam to NY!", "Who cares!?", "A shark ate you..", "Well, you're here aren't you!?"]
 
 
 @app.route("/")
@@ -54,9 +54,9 @@ def form():
       sex = request.form.get('sex')
       pclass = request.form.get('pclass')
       fare = request.form.get('fare')
-      survived = request.form.get('survived')
-      # survived = random.choice(outcomes)
-      print(survived)
+      # survived = request.form.get('survived')
+      survived = random.choice(outcomes)
+      # print(survived)
       create_passenger(name, age, sex, pclass, fare, survived)
     # delete_all_passengers()
 
@@ -64,8 +64,6 @@ def form():
   return render_template('form.html', passengers = passengers, outcome = random.choice(outcomes)
   )
   
-
-
 
 @app.route("/articles")
 def articles():

@@ -6,7 +6,7 @@ ROOT = path.dirname(path.relpath(__file__))
 def create_passenger(name, age, sex, pclass, fare, survived):
   connection = sql.connect(path.join(ROOT, 'database.db'))
   cur = connection.cursor()
-  cur.execute('insert into passengers (name, age, sex, pclass, fare) values (?,?,?,?,?)', (name, age, sex, pclass, fare))
+  cur.execute('insert into passengers (name, age, sex, pclass, fare, survived) values (?,?,?,?,?,?)', (name, age, sex, pclass, fare, survived))
   connection.commit()
   connection.close()
 
