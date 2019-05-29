@@ -3,12 +3,29 @@
 }
 .container {
   margin: auto;
-  margin-top: 30px
+  margin-top: 50px
+}
+
+.jack-container {
+  display: flex;
+  align-items: center;
+  margin: 50px 0;
+  justify-content: center;
+}
+
+.select-container{
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: row; */
+}
+
+.tit-form {
+  margin: 0 50px;
 }
 .nav-logo {
   margin-left: 20px;
 }
 
 .passenger-table {
-  margin: 30px 0;
+  margin: 50px 0;
 }

@@ -1,24 +1,43 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
-<h1>
-  {{titanic.size}}
-</h1>
-{% for table in tables %}
-  {{titles[loop.index]}}
-  {{ table|safe }}
-{% endfor %}
-
-  {{titanic[["age", "sex"]]}}
-
-{% for row in titanic.head().to_numpy() %}
-<div class="row">
-  <div class="col">
-    <p>{{row}}</p>
+<div class="container">
+  <div class="select-container">
+    <form action="/titanic" method="post"  >
+      <fieldset>
+        <div class="form-group">
+          <label for="name">Start</label>
+          <input type="text" class="form-control" name="start" aria-describedby="emailHelp" placeholder="Start passenger number">
+          <small id="nameHelp" class="form-text text-muted">My heart will go oooooooooonnnnn!!!</small>
+        </div>
+        <div class="form-group">
+          <label for="age">End</label>
+          <input type="integer" class="form-control" name="end" placeholder="End passenger number">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </fieldset>
+    </form>
   </div>
+  
+
+  <h1>
+    {{titanic.size}}
+  </h1>
+  {% for table in tables %}
+    {{titles[loop.index]}}
+    {{ table|safe }}
+  {% endfor %}
+  
+    {{titanic[["age", "sex"]]}}
+  
+  {% for row in titanic.head().to_numpy() %}
+  <div class="row">
+    <div class="col">
+      <p>{{row}}</p>
+    </div>
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
 
 
 {% endblock %}

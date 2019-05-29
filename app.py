@@ -28,15 +28,22 @@ outcomes = ["lol, no...", "Rose pushed you under..", "Jack sacraficed himself fo
 def hello():
   return render_template("home.html")
 
-@app.route("/titanic")
+@app.route("/titanic", methods=['GET', 'POST'])
 def titanic_info():
-  return render_template("titanic.html", titanic = titanic, info = titanic.to_numpy()[400], tables=[titanic.to_html(classes='data')], titles=titanic.columns.values)
+  if request.method == "GET":
+    return render_template("titanic.html", titanic = titanic, info = titanic.to_numpy()[400], tables=[titanic.to_html(classes='data')], titles=titanic.columns.values)
+    
+  if request.method == "POST":
+    start = int(request.form.get('start'))
+    end = int(request.form.get('end')) + 1
+    return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='data')], titles=titanic[start:end].columns.values)
+
 
 @app.route("/name/<name>")
 def get_book_name(name):
   return f"name: {name}"
 
-@app.route("/form", methods=['GET', 'POST', 'DELETE'])
+@app.route("/form", methods=['GET', 'POST'])
 def form():
   # return render_template('form.html')
   if request.method == 'GET':
