@@ -32,10 +32,13 @@ def hello():
 def titanic_info():
   if request.method == "GET":
     return render_template("titanic.html", titanic = titanic, info = titanic.to_numpy()[400], tables=[titanic.to_html(classes='data')], titles=titanic.columns.values)
-    
+
   if request.method == "POST":
     start = int(request.form.get('start'))
-    end = int(request.form.get('end')) + 1
+    if request.form.get('end'):
+      end = int(request.form.get('end')) + 1
+    else:
+      end = start + 1
     return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='data')], titles=titanic[start:end].columns.values)
 
 
