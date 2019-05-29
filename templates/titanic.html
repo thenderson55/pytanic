@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1>
+  {{titanic.size}}
+</h1>
+{% for table in tables %}
+  {{titles[loop.index]}}
+  {{ table|safe }}
+{% endfor %}
+
+  {{titanic[["age", "sex"]]}}
+
+{% for row in titanic.head().to_numpy() %}
+<div class="row">
+  <div class="col">
+    <p>{{row}}</p>
+  </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
