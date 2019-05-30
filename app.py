@@ -33,7 +33,7 @@ def titanic_info():
   if request.method == "GET":
     print(request)
     print('hello')
-    return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = False)
+    return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_average = False)
 
   if request.method == "POST":
     print(request.form)
@@ -42,17 +42,23 @@ def titanic_info():
       average_choice = request.form.get('average')
       # data_choice = average_choice.capitalize()
       avg_data = titanic[average_choice].mean()
-      return render_template("titanic.html", titanic = titanic, avg_data = avg_data, average_choice = average_choice, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = True)
+      desc = titanic.describe(include='all')
+      return render_template("titanic.html", titanic = titanic, avg_data = avg_data, average_choice = average_choice, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_average = True)
+
+    if "stats-button" in request.form:
+      # tabel_choice = request.form.get('table')
+      desc = titanic.describe(include='all')
+      return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_stats = True, stat=[desc.to_html(classes='table')])
 
     if "all-data-button" in request.form: 
       if request.form.get('start') == '' and request.form.get('end') == '':
-        return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = False)
+        return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values)
       start = int(request.form.get('start'))
       if request.form.get('end'):
         end = int(request.form.get('end')) + 1
       else:
         end = start + 1
-      return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='data')], titles=titanic[start:end].columns.values, show_average = False)
+      return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='table')], titles=titanic[start:end].columns.values)
 
 
 @app.route("/name/<name>")

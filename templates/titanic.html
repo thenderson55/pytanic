@@ -14,9 +14,10 @@
           <label for="age">End</label>
           <input type="integer" class="form-control" name="end" placeholder="End passenger no.">
         </div>
-        <button type="submit" name="all-data-button"class="btn btn-primary">Submit</button>
+        <button type="submit" name="all-data-button"class="btn btn-primary">Passengers</button>
       </fieldset>
     </form>
+
     <form action="/titanic" method="post" class="averages-form" >
       <fieldset>
         <div class="form-group">
@@ -28,7 +29,21 @@
           </select>
         </div>
       </fieldset>
-      <button type="submit" name="averages-button"class="btn btn-primary">Submit</button>
+      <button type="submit" name="averages-button"class="btn btn-primary">Get Average</button>
+    </form>
+
+    <form action="/titanic" method="post" class="averages-form" >
+      <fieldset>
+        <div class="form-group">
+          <label for="exampleSelect1">All Stats</label>
+          <select class="form-control" name="table">
+            <option >Titanic</option>
+            <option >Cars</option>
+            <option >Love</option>
+          </select>
+        </div>
+      </fieldset>
+      <button type="submit" name="stats-button"class="btn btn-primary">Get Statistics</button>
     </form>
   </div>
 
@@ -36,11 +51,20 @@
     <p>
       The average {{average_choice}} was {{avg_data}} 
     </p>
-  {% endif %}   
-  {% for table in tables %}
-    {{titles[loop.index]}}
-    {{ table|safe }}
-  {% endfor %}
+  {% endif %}  
+
+
+  {% if show_stats %}
+    <!-- {% for table in tables %} -->
+      {{ stat|safe }}
+    <!-- {% endfor %} -->
+  {% endif %} 
+  <table class="table">
+    <!-- {% for table in tables %} -->
+      <!-- {{titles[loop.index]}} -->
+      {{ table|safe }}
+    <!-- {% endfor %} -->
+  </table> 
   
     <!-- {{titanic[["age", "sex"]]}} -->
   {% for row in titanic.head().to_numpy() %}
