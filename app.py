@@ -1,6 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy  # connecting db like "knex"
 # from flask_cors import CORS
+import requests
+import json
 import os 
 import pandas as pd
 import random
@@ -10,6 +12,7 @@ from models import create_passenger, get_passengers, delete_passenger, delete_al
 
 pd.options.display.max_rows = 20
 titanic = pd.read_csv('titanic.csv')
+# titanic = titanic(r'\s+|\\n', ' ', regex=True, inplace=True) 
 
 
 Articles = Articles()
@@ -26,7 +29,8 @@ outcomes = ["lol, no...", "Rose pushed you under..", "Jack sacraficed himself fo
 
 @app.route("/")
 def hello():
-  return render_template("home.html")
+  beer_data = requests.get("https://api.punkapi.com/v2/beers")
+  return render_template("home.html", beers=json.loads(beer_data.text))
 
 @app.route("/titanic", methods=['GET', 'POST'])
 def titanic_info():
@@ -47,7 +51,12 @@ def titanic_info():
 
     if "stats-button" in request.form:
       # tabel_choice = request.form.get('table')
+      # st = titanic.strip()
       desc = titanic.describe(include='all')
+      # desc.replace(r'\s+|\\n', ' ', regex=True, inplace=True) 
+      # desc = desc.replace(r'\\n',' ', regex=True)
+      print(desc)
+      # desc = desc.replace(r'[\n\s]+', '')
       return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_stats = True, stat=[desc.to_html(classes='table')])
 
     if "all-data-button" in request.form: 
