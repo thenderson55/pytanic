@@ -31,15 +31,28 @@ def hello():
 @app.route("/titanic", methods=['GET', 'POST'])
 def titanic_info():
   if request.method == "GET":
-    return render_template("titanic.html", titanic = titanic, info = titanic.to_numpy()[400], tables=[titanic.to_html(classes='data')], titles=titanic.columns.values)
+    print(request)
+    print('hello')
+    return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = False)
 
   if request.method == "POST":
-    start = int(request.form.get('start'))
-    if request.form.get('end'):
-      end = int(request.form.get('end')) + 1
-    else:
-      end = start + 1
-    return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='data')], titles=titanic[start:end].columns.values)
+    print(request.form)
+    print('hello')
+    if "averages-button" in request.form:
+      average_choice = request.form.get('average')
+      # data_choice = average_choice.capitalize()
+      avg_data = titanic[average_choice].mean()
+      return render_template("titanic.html", titanic = titanic, avg_data = avg_data, average_choice = average_choice, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = True)
+
+    if "all-data-button" in request.form: 
+      if request.form.get('start') == '' and request.form.get('end') == '':
+        return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='data')], titles=titanic.columns.values, show_average = False)
+      start = int(request.form.get('start'))
+      if request.form.get('end'):
+        end = int(request.form.get('end')) + 1
+      else:
+        end = start + 1
+      return render_template("titanic.html", titanic = titanic[start:end], tables=[titanic[start:end].to_html(classes='data')], titles=titanic[start:end].columns.values, show_average = False)
 
 
 @app.route("/name/<name>")

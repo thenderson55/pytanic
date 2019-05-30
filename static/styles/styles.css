@@ -19,6 +19,13 @@
   /* flex-direction: row; */
 }
 
+.averages-form {
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .tit-form {
   margin: 0 50px;
 }

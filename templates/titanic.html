@@ -14,28 +14,36 @@
           <label for="age">End</label>
           <input type="integer" class="form-control" name="end" placeholder="End passenger no.">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="all-data-button"class="btn btn-primary">Submit</button>
       </fieldset>
     </form>
+    <form action="/titanic" method="post" class="averages-form" >
+      <fieldset>
+        <div class="form-group">
+          <label for="exampleSelect1">Averages</label>
+          <select class="form-control" name="average">
+            <option >age</option>
+            <option >fare</option>
+            <option >3</option>
+          </select>
+        </div>
+      </fieldset>
+      <button type="submit" name="averages-button"class="btn btn-primary">Submit</button>
+    </form>
   </div>
-  
 
-  <h1>
-    {{titanic.size}}
-  </h1>
+  {% if show_average %}
+    <p>
+      The average {{average_choice}} was {{avg_data}} 
+    </p>
+  {% endif %}   
   {% for table in tables %}
     {{titles[loop.index]}}
     {{ table|safe }}
   {% endfor %}
   
-    {{titanic[["age", "sex"]]}}
-  
+    <!-- {{titanic[["age", "sex"]]}} -->
   {% for row in titanic.head().to_numpy() %}
-  <div class="row">
-    <div class="col">
-      <p>{{row}}</p>
-    </div>
-  </div>
   {% endfor %}
 </div>
 
