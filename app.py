@@ -14,7 +14,7 @@ from models import create_passenger, get_passengers, delete_passenger, delete_al
 titanic = pd.read_csv('titanic.csv')
 cc_students = pd.read_csv('cc-tables.csv')
 olympics_all = pd.read_csv('wik_1976.csv')
-olympics = olympics_all.tail(1500)
+olympics = olympics_all.tail(200)
 # titanic = titanic(r'\s+|\\n', ' ', regex=True, inplace=True) 
 
 
@@ -67,6 +67,9 @@ def titanic_info():
   if request.method == "POST":
     print(request.form)
     print('hello')
+    if "cc-button" in request.form:
+      return render_template("titanic.html", titanic = titanic, cc_students = cc_students, tables=[cc_students.to_html(classes='table')], titles=cc_students.columns.values, show_students = True)
+
     if "averages-button" in request.form:
       average_choice = request.form.get('average')
       # data_choice = average_choice.capitalize()
@@ -84,10 +87,10 @@ def titanic_info():
       # desc = desc.replace(r'[\n\s]+', '')
       if request.form.get('table') == "Titanic":
         return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_stats = True, stat=[desc.to_html(classes='table')])
-      if request.form.get('table') == "Cars":
+      if request.form.get('table') == "Olympics":
         olympic_describe = olympics.describe(include='all')
 
-        return render_template('titanic.html', titanic = titanic, olympics = olympics.tail(20), tables=[olympics.to_html(classes='table')], titles=olympics.columns.values, show_olympic_stats = True, olympic_stat=[olympic_describe.to_html(classes='table')])
+        return render_template('titanic.html', titanic = titanic, olympics = olympics, tables=[olympics.to_html(classes='table')], titles=olympics.columns.values, show_olympic_stats = True, olympic_stat=[olympic_describe.to_html(classes='table')])
       
 
     if "all-data-button" in request.form: 

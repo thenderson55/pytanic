@@ -1,9 +1,9 @@
 .articles {
   margin-top: 30px;
 }
-.container {
+.titanic-container {
   margin: auto;
-  margin-top: 50px
+  margin: 50px 100px;
 }
 
 .jack-container {
@@ -17,6 +17,8 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 30px;
+  justify-content: space-between;
+
   /* flex-direction: row; */
 }
 
@@ -36,4 +38,12 @@
 
 .passenger-table {
   margin: 50px 0;
+}
+
+.cc-form {
+  margin-left: 70px;
+}
+
+.cc-btn {
+  height: 250px;
 }
