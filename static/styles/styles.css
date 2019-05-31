@@ -5,7 +5,11 @@
   margin: auto;
   margin: 50px 100px;
 }
+.nav-spread {
+  display: flex;
+  justify-content: space-between;
 
+}
 .jack-container {
   display: flex;
   align-items: center;
