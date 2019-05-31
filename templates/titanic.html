@@ -38,12 +38,25 @@
           <label for="exampleSelect1">All Stats</label>
           <select class="form-control" name="table">
             <option >Titanic</option>
-            <option >Cars</option>
-            <option >Love</option>
+            <option >Olympics</option>
           </select>
         </div>
       </fieldset>
       <button type="submit" name="stats-button"class="btn btn-primary">Get Statistics</button>
+    </form>
+
+    <form action="/titanic" method="post" class="averages-form" >
+      <fieldset>
+        <div class="form-group">
+          <label for="exampleSelect1">1974 Olympics</label>
+          <select class="form-control" name="sport">
+            <option >Running</option>
+            <option >Swimming</option>
+            <option >Shooting</option>
+          </select>
+        </div>
+      </fieldset>
+      <button type="submit" name="stats-button"class="btn btn-primary">1974 Olympics</button>
     </form>
   </div>
 
@@ -59,6 +72,11 @@
       {{ stat|safe }}
     <!-- {% endfor %} -->
   {% endif %} 
+  {% if show_olympic_stats %}
+    <!-- {% for table in tables %} -->
+      {{ olympic_stat|safe }}
+    <!-- {% endfor %} -->
+  {% endif %} 
   <table class="table">
     <!-- {% for table in tables %} -->
       <!-- {{titles[loop.index]}} -->
@@ -67,8 +85,8 @@
   </table> 
   
     <!-- {{titanic[["age", "sex"]]}} -->
-  {% for row in titanic.head().to_numpy() %}
-  {% endfor %}
+  <!-- {% for row in titanic.head().to_numpy() %}
+  {% endfor %} -->
 </div>
 
 

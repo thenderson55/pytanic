@@ -1,8 +1,8 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, json, jsonify
 from flask_sqlalchemy import SQLAlchemy  # connecting db like "knex"
 # from flask_cors import CORS
 import requests
-import json
+# import json
 import os 
 import pandas as pd
 import random
@@ -10,8 +10,11 @@ import numpy as py
 from data import Articles
 from models import create_passenger, get_passengers, delete_passenger, delete_all_passengers
 
-pd.options.display.max_rows = 20
+# pd.options.display.max_rows = 20
 titanic = pd.read_csv('titanic.csv')
+cc_students = pd.read_csv('cc-tables.csv')
+olympics_all = pd.read_csv('wik_1976.csv')
+olympics = olympics_all.tail(1500)
 # titanic = titanic(r'\s+|\\n', ' ', regex=True, inplace=True) 
 
 
@@ -31,6 +34,28 @@ outcomes = ["lol, no...", "Rose pushed you under..", "Jack sacraficed himself fo
 def hello():
   beer_data = requests.get("https://api.punkapi.com/v2/beers")
   return render_template("home.html", beers=json.loads(beer_data.text))
+
+@app.route("/crypto")
+def crypto():
+  # crypto_prices_csv = requests.get("https://api.nomics.com/v1/prices?key=ca179d337c59e14879e99e19ae8f1892&format=csv")
+  crypto_prices = requests.get("https://api.nomics.com/v1/prices?key=ca179d337c59e14879e99e19ae8f1892")
+  print(crypto_prices)
+  return "crypto"
+
+@app.route("/cc")
+def cc():
+  # return 'hllop'
+  # return render_template("cc-table.html")
+  return render_template("cc-table.html", cc_students = cc_students, tables=[cc_students.to_html(classes='table')], titles=cc_students.columns.values)
+
+@app.route("/beers")
+def beers():
+  describe = titanic.describe(include='all')
+  # numpy_matrix = desc.as_matrix()
+  # beer_data = requests.get("https://api.punkapi.com/v2/beers")
+  # yo = {"message":"hello"}
+  d = describe.to_json()
+  return d
 
 @app.route("/titanic", methods=['GET', 'POST'])
 def titanic_info():
@@ -57,7 +82,13 @@ def titanic_info():
       # desc = desc.replace(r'\\n',' ', regex=True)
       print(desc)
       # desc = desc.replace(r'[\n\s]+', '')
-      return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_stats = True, stat=[desc.to_html(classes='table')])
+      if request.form.get('table') == "Titanic":
+        return render_template("titanic.html", titanic = titanic, tables=[titanic.to_html(classes='table')], titles=titanic.columns.values, show_stats = True, stat=[desc.to_html(classes='table')])
+      if request.form.get('table') == "Cars":
+        olympic_describe = olympics.describe(include='all')
+
+        return render_template('titanic.html', titanic = titanic, olympics = olympics.tail(20), tables=[olympics.to_html(classes='table')], titles=olympics.columns.values, show_olympic_stats = True, olympic_stat=[olympic_describe.to_html(classes='table')])
+      
 
     if "all-data-button" in request.form: 
       if request.form.get('start') == '' and request.form.get('end') == '':
