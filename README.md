@@ -1,8 +1,8 @@
 Pytanic
 ============
 
-I had 5 days to learn and build a fullt-stack app in a new programming language. I chose python and created a little app using 
-Titanic themed app Flask, Pandas and Beautiful Soup
+I had 5 days to learn and build a fullt-stack app in a new programming language. I chose python and created a little 
+Titanic themed app using Flask, Pandas and Beautiful Soup
 
 ---
 
